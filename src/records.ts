@@ -8,7 +8,7 @@ import { checkRelPath, checkSkillName, LIMITS, SafetyError } from "./safety.js"
 export const SCHEMA = 1
 export type Verdict = "clean" | "warn" | "malicious"
 export const VERDICTS: Verdict[] = ["clean", "warn", "malicious"]
-export type Finding = { file: string; line: number; rule: string; severity: "critical" | "warn"; excerpt: string }
+export type Finding = { file: string; line: number; rule: string; severity: "critical" | "warn" | "info"; excerpt: string }
 
 export type EntityLike = {
   key?: Hex
@@ -220,7 +220,7 @@ export function parseRating(e: EntityLike, withPayload: boolean): ParsedRating {
           file: String(f.file).slice(0, 255),
           line: Number(f.line) || 0,
           rule: String(f.rule).slice(0, 64),
-          severity: f.severity === "critical" ? "critical" : "warn",
+          severity: f.severity === "critical" ? "critical" : f.severity === "info" ? "info" : "warn",
           excerpt: String(f.excerpt ?? "").slice(0, LIMITS.excerptChars),
         }))
       : []
