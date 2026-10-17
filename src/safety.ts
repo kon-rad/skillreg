@@ -1,5 +1,5 @@
 // Safety rules S1-S3 and S6 from the spec. Pure functions, no I/O.
-import { resolve, sep } from "node:path"
+import { utf8Len } from "./hash.js"
 
 export const LIMITS = {
   skillPayload: 96 * 1024,
@@ -33,7 +33,7 @@ export function checkSkillName(name: string): void {
 export function checkRelPath(p: string): void {
   const bad = (why: string) => new SafetyError("path", `unsafe path ${JSON.stringify(p)}: ${why}`)
   if (typeof p !== "string" || p.length === 0) throw bad("empty")
-  if (Buffer.byteLength(p, "utf8") > LIMITS.pathBytes) throw bad("too long")
+  if (utf8Len(p) > LIMITS.pathBytes) throw bad("too long")
   if (/[\u0000-\u001f\u007f]/.test(p)) throw bad("control character")
   if (p.includes("\\")) throw bad("backslash")
   if (p.includes(":")) throw bad("colon")
@@ -44,17 +44,6 @@ export function checkRelPath(p: string): void {
     if (s === "") throw bad("empty segment")
     if (s === "." || s === "..") throw bad("dot segment")
   }
-}
-
-/** S1, resolved part: the target must stay inside root. */
-export function resolveInside(root: string, p: string): string {
-  checkRelPath(p)
-  const base = resolve(root)
-  const target = resolve(base, p)
-  if (target !== base && !target.startsWith(base + sep)) {
-    throw new SafetyError("path", `path ${JSON.stringify(p)} escapes ${base}`)
-  }
-  return target
 }
 
 const decoder = new TextDecoder("utf-8", { fatal: true })

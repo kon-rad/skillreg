@@ -1,5 +1,6 @@
 // Parse SKILL.md frontmatter (agentskills.io) into the fields skillreg records.
 import { parse } from "yaml"
+import { utf8Len } from "./hash.js"
 import { LIMITS, SafetyError } from "./safety.js"
 
 export type Frontmatter = { name: string; description: string; license?: string; version: string; keywords: string[] }
@@ -43,10 +44,10 @@ export function parseFrontmatter(skillMd: string): Frontmatter {
 /** Printable, whitespace-collapsed text that fits in maxBytes of UTF-8. */
 export function summarize(desc: string, maxBytes = 120): string {
   const clean = desc.replace(/[\u0000-\u001f\u007f]/g, " ").replace(/\s+/g, " ").trim()
-  if (Buffer.byteLength(clean) <= maxBytes) return clean
+  if (utf8Len(clean) <= maxBytes) return clean
   let out = ""
   for (const ch of clean) {
-    if (Buffer.byteLength(out + ch) > maxBytes - 3) break
+    if (utf8Len(out + ch) > maxBytes - 3) break
     out += ch
   }
   return out.trimEnd() + "..."
@@ -55,10 +56,10 @@ export function summarize(desc: string, maxBytes = 120): string {
 /** Truncate to maxBytes of UTF-8 on a character boundary. */
 export function truncBytes(s: string, maxBytes: number): string {
   const clean = s.replace(/[\u0000-\u001f\u007f]/g, " ")
-  if (Buffer.byteLength(clean) <= maxBytes) return clean
+  if (utf8Len(clean) <= maxBytes) return clean
   let out = ""
   for (const ch of clean) {
-    if (Buffer.byteLength(out + ch) > maxBytes) break
+    if (utf8Len(out + ch) > maxBytes) break
     out += ch
   }
   return out

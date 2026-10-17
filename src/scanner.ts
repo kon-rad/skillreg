@@ -1,6 +1,5 @@
 // Static scanner, rules v1 (spec section 8). Deterministic: same files and same version give the same findings.
-import { createHash } from "node:crypto"
-import type { SkillFile } from "./manifest.js"
+import { sha256hex, type SkillFile } from "./hash.js"
 import type { Finding, Verdict } from "./records.js"
 import { LIMITS } from "./safety.js"
 
@@ -30,9 +29,7 @@ export const RULES: Rule[] = [
   { id: "outbound-url", severity: "info", re: /https?:\/\/[a-z0-9.-]+/i },
 ]
 
-export const RULES_HASH = `0x${createHash("sha256")
-  .update(JSON.stringify([RULES.map((r) => [r.id, r.severity, r.re.source, r.re.flags]), SEND_RE.source, "credential-exfil:v1", "rules:v1.1"]))
-  .digest("hex")}` as `0x${string}`
+export const RULES_HASH = `0x${sha256hex(JSON.stringify([RULES.map((r) => [r.id, r.severity, r.re.source, r.re.flags]), SEND_RE.source, "credential-exfil:v1", "rules:v1.1"]))}` as `0x${string}`
 
 const MAX_FINDINGS = 100
 

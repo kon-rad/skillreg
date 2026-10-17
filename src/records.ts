@@ -2,7 +2,7 @@
 import { bytes32, key, str, u64 } from "@arkiv-network/sdk/attr"
 import type { Hex } from "viem"
 import { normalizeKeywords, parseFrontmatter, summarize, truncBytes, type Frontmatter } from "./frontmatter.js"
-import { manifestHash, sortFiles, type SkillFile } from "./manifest.js"
+import { manifestHash, sortFiles, utf8Len, type SkillFile } from "./hash.js"
 import { checkRelPath, checkSkillName, LIMITS, SafetyError } from "./safety.js"
 
 export const SCHEMA = 1
@@ -66,7 +66,7 @@ export function buildSkillRecord(i: { files: SkillFile[]; fm: Frontmatter; keywo
     seen.add(f.path)
   }
   const sha = manifestHash(files)
-  const size = files.reduce((n, f) => n + Buffer.byteLength(f.text), 0)
+  const size = files.reduce((n, f) => n + utf8Len(f.text), 0)
   const payload = enc.encode(JSON.stringify({ description: i.fm.description, files }))
   if (payload.length > LIMITS.skillPayload) {
     throw bad("size", `skill is ${payload.length} bytes as a record; the limit is ${LIMITS.skillPayload}`)
@@ -152,7 +152,7 @@ export function parseSkillFull(e: EntityLike): ParsedSkill {
     seen.add(f.path)
     if (f.mode !== 420 && f.mode !== 493) throw bad("mode", `${f.path} has mode ${f.mode}; only 0644 and 0755 are allowed`)
     if (f.text.includes("\u0000")) throw bad("binary", `${f.path} contains NUL`)
-    if (Buffer.byteLength(f.text) > LIMITS.fileBytes) throw bad("size", `${f.path} is too large`)
+    if (utf8Len(f.text) > LIMITS.fileBytes) throw bad("size", `${f.path} is too large`)
     files.push({ path: f.path, mode: f.mode, text: f.text })
   }
   if (manifestHash(files) !== s.sha) throw bad("hash", "files do not match the record's sha: the record is corrupt or tampered")

@@ -1,5 +1,6 @@
 import { describe, expect, test } from "vitest"
-import { checkRelPath, checkSkillName, checkText, leakCheck, resolveInside, SafetyError } from "../src/safety.js"
+import { resolveInside } from "../src/fsafety.js"
+import { checkRelPath, checkSkillName, checkText, leakCheck, SafetyError } from "../src/safety.js"
 
 const throwsCode = (fn: () => unknown, code: string) => {
   try { fn() } catch (e) { expect(e).toBeInstanceOf(SafetyError); expect((e as SafetyError).code).toBe(code); return }

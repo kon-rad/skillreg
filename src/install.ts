@@ -4,7 +4,8 @@ import { chmodSync, existsSync, mkdirSync, readFileSync, renameSync, rmSync, wri
 import { basename, dirname, join } from "node:path"
 import type { Hex } from "viem"
 import { manifestHash, readSkillDir, type SkillFile } from "./manifest.js"
-import { checkRelPath, checkSkillName, resolveInside, SafetyError } from "./safety.js"
+import { resolveInside } from "./fsafety.js"
+import { checkRelPath, checkSkillName, SafetyError } from "./safety.js"
 
 export type LockEntry = { creator: Hex; key: Hex; sha: Hex; version: string; installed_at: string }
 export type Lock = { version: 1; skills: Record<string, LockEntry> }
