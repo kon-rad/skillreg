@@ -174,7 +174,7 @@ export function rank(skills: ParsedSkill[], terms: string[], limit: number): Par
 
 - [ ] `output.ts`: `exitWith(code, humanText, jsonObj)` honouring `--json`; `class CliError extends Error { exit: number }`; map `SafetyError` codes to exit 4, network errors to 5.
 - [ ] Each command per spec 7. `publish` order: readSkillDir → parseFrontmatter → checkSkillName (and equals folder basename) → leakCheck on all files (refuse with reasons) → buildSkillRecord → size check → walletClient → hasDuplicate (exit 0 "already published", print key) → first-publish-of-name confirmation (`findSkill(name, me)` none and no `--yes` → exit 3) → `createEntity` with 90-day expiry and flags → print.
-- [ ] `scan --all`: `listSkills` minus `ratingsBy(me)` keys; for each, `getSkillFull` (skip on parse error, but rate `malicious` with finding `invalid-record`? No: skip and log), `scan`, build ratings, `executeBatch` in chunks of 25 with per-rating expiry 180 days and flags.
+- [ ] `scan --all`: `listSkills` minus `ratingsBy(me)` keys; for each, `getSkillFull` (on parse error: skip it and log the reason; invalid records are already refused by every reader), `scan`, build ratings, `executeBatch` in chunks of 25 with per-rating expiry 180 days and flags.
 - [ ] Commit.
 
 ### Task 9: Integration tests on the local dev node
