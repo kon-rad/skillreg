@@ -10,7 +10,8 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "resolveJsonModule": false,
-    "noUncheckedIndexedAccess": false
+    "noUncheckedIndexedAccess": false,
+    "types": ["node"]
   },
   "include": ["src"]
 }
