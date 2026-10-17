@@ -55,7 +55,7 @@ async function verdictFor(ctx: Ctx, s: Pick<ParsedSkill, "key" | "sha" | "creato
 
 export async function cmdSearch(ctx: Ctx, words: string[], o: { limit?: string }) {
   const terms = tokenize(words)
-  const top = rank(await listSkills(ctx.pc), terms, Number(o.limit ?? 20))
+  const top = rank(await listSkills(ctx.pc), terms, Number(o.limit ?? 20), ctx.trust.publishers)
   const block = await ctx.pc.getBlockNumber()
   const results = await Promise.all(
     top.map(async (s) => {

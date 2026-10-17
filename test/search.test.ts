@@ -37,3 +37,19 @@ describe("rank", () => {
     expect(r.map((x) => x.name)).toEqual(["b"])
   })
 })
+
+describe("rank with trusted publishers", () => {
+  test("a trusted publisher wins a score tie even when older", () => {
+    const impostor = s({ name: "fact-check", creator: ADDR2, createdAt: 9n })
+    const real = s({ name: "fact-check", creator: ADDR, createdAt: 1n })
+    expect(rank([impostor, real], ["fact-check"], 10, [ADDR]).map((x) => x.creator)).toEqual([ADDR, ADDR2])
+  })
+})
+
+describe("keyword stuffing", () => {
+  test("a matching trusted skill outranks a higher-scoring untrusted one", () => {
+    const stuffed = s({ name: "fact-check", creator: ADDR2, keywords: ["fact-check"], createdAt: 9n })
+    const real = s({ name: "fact-check", creator: ADDR, createdAt: 1n })
+    expect(rank([stuffed, real], ["fact-check"], 10, [ADDR])[0].creator).toBe(ADDR)
+  })
+})

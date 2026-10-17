@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>skillreg</title>
+  <meta name="description" content="Open, permissionless registry for agent skills on Arkiv. Signed, immutable, hash-checked, rated by whoever you trust." />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1><a href="./">skillreg</a></h1>
+      <p class="tag">Agent skills as signed, immutable records on Arkiv. Anyone can publish, rate or keep a skill alive. You choose whose ratings count.</p>
+    </div>
+  </header>
+  <main class="wrap">
+    <form id="search" role="search">
+      <input id="q" type="search" placeholder="Search skills: pdf, fact-check, deploy..." autocomplete="off" aria-label="Search skills" />
+      <button type="submit">Search</button>
+    </form>
+    <p id="status" class="muted" aria-live="polite">Loading the registry from Arkiv...</p>
+    <section id="results" aria-label="Results"></section>
+    <section id="detail" hidden aria-label="Skill detail"></section>
+    <details id="settings">
+      <summary>Network and trust</summary>
+      <p class="muted">Verdicts are computed in your browser from ratings posted by the raters you list here. Nothing is sent anywhere but the Arkiv RPC.</p>
+      <label>Raters you trust (one address per line)<textarea id="raters" rows="3" spellcheck="false"></textarea></label>
+      <label>Publishers you trust (one address per line)<textarea id="publishers" rows="3" spellcheck="false"></textarea></label>
+      <p class="muted" id="net"></p>
+      <button type="button" id="save">Save and reload</button>
+    </details>
+  </main>
+  <footer class="wrap muted">
+    MIT · <a href="https://github.com/kon-rad/skillreg">source and data contract</a> · reads Arkiv directly, no backend
+  </footer>
+  <script type="module" src="./main.ts"></script>
+</body>
+</html>

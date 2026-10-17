@@ -30,14 +30,16 @@ export function latestPerName(skills: ParsedSkill[]): ParsedSkill[] {
   return [...best.values()]
 }
 
-export function rank(skills: ParsedSkill[], terms: string[], limit: number): ParsedSkill[] {
-  const newer = (a: ParsedSkill, b: ParsedSkill) => (b.createdAt > a.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0)
+export function rank(skills: ParsedSkill[], terms: string[], limit: number, trustedPublishers: string[] = []): ParsedSkill[] {
+  const trusted = new Set(trustedPublishers.map((a) => a.toLowerCase()))
+  const t = (s: ParsedSkill) => (trusted.has(s.creator.toLowerCase()) ? 1 : 0)
+  const newer = (a: ParsedSkill, b: ParsedSkill) => t(b) - t(a) || (b.createdAt > a.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0)
   const latest = latestPerName(skills)
   if (terms.length === 0) return latest.sort(newer).slice(0, limit)
   return latest
     .map((s) => ({ s, n: score(s, terms) }))
     .filter((x) => x.n > 0)
-    .sort((a, b) => b.n - a.n || newer(a.s, b.s))
+    .sort((a, b) => t(b.s) - t(a.s) || b.n - a.n || newer(a.s, b.s))
     .slice(0, limit)
     .map((x) => x.s)
 }
