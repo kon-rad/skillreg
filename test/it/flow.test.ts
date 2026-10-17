@@ -11,7 +11,7 @@ describe.skipIf(!process.env.SKILLREG_IT)("end to end on the local Arkiv dev nod
   test("publish → search → WARN → scan → PASS install → verify → tamper detected", async () => {
     if (!up) return
     const { dir, name } = uniqueSkill("clean-hello")
-    const trust = trustFile([PUBLISHER.addr], [SCANNER.addr])
+    const trust = trustFile([PUBLISHER.addr], [SCANNER.addr, SPONSOR.addr]) // two raters: exercises the OR query
 
     const first = cli(["publish", dir], { key: PUBLISHER.key })
     expect(first.code).toBe(3) // first publish needs --yes
