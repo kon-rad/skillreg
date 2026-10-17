@@ -1,19 +1,43 @@
 {
-  "name": "skillreg",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "name": "@kon-rad/skillreg",
+  "version": "0.1.0",
+  "description": "Open, permissionless registry for agent skills on Arkiv: signed, immutable, hash-checked, rated by whoever you trust.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Konrad Gnat",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kon-rad/skillreg.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "bin": {
+    "skillreg": "dist/cli/main.js"
+  },
+  "files": [
+    "dist",
+    "trust.default.json",
+    "skills",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "vitest run --exclude 'test/it/**'",
+    "it": "SKILLREG_IT=1 vitest run test/it",
+    "dev": "tsx src/cli/main.ts",
+    "prepare": "tsc -p .",
+    "web:build": "vite build web",
+    "web:dev": "vite web"
+  },
   "dependencies": {
     "@arkiv-network/sdk": "^0.8.1",
-    "viem": "^2.57.7"
+    "commander": "^15.0.0",
+    "viem": "^2.57.7",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.7"
   },
-  "type": "module",
   "devDependencies": {
     "@types/node": "^26.6.5",
     "tsx": "^4.23.15",

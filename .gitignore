@@ -7,3 +7,4 @@ dist/
 .DS_Store
 web/dist/
 .skillreg-state/
+.superpowers/
