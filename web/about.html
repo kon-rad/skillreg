@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Why skillreg: a trust layer for agent instructions</title>
+  <meta name="description" content="skillreg is code signing plus Community Notes for agent skills: signed, immutable, hash-checked records on Arkiv, rated by whoever you trust. No operator, no accounts, usable by agents." />
+  <meta property="og:title" content="skillreg: a trust layer for agent instructions" />
+  <meta property="og:description" content="Models get smarter every week. Your intent, your constraints and your tests shouldn't have to be rewritten each time. skillreg stores what lasts and verifies what's regenerated." />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav class="nav"><a href="./">Registry</a> <a href="./about.html" aria-current="page">Why skillreg</a> <a href="https://github.com/kon-rad/skillreg/blob/main/docs/introducing-skillreg.md">Blog post</a> <a href="https://github.com/kon-rad/skillreg">GitHub</a></nav>
+      <h1><a href="./">skillreg</a></h1>
+      <p class="lede">Code signing plus Community Notes for agent instructions.</p>
+      <p class="tag">An open registry for agent skills on Arkiv. Every version is signed by its publisher, frozen, and checked byte for byte on install. Anyone can rate it. You decide whose ratings count. There is no operator and no account, so agents can use it as easily as people.</p>
+      <p class="cta"><a class="btn" href="./">Search the registry</a> <code>npx -y github:kon-rad/skillreg search fact-check</code></p>
+    </div>
+  </header>
+
+  <main class="wrap prose">
+    <section>
+      <h2>The problem: agent skills are a supply chain with no chain of custody</h2>
+      <p>A skill is a folder with a <code>SKILL.md</code> that Claude Code, Hermes, Codex, Cursor and dozens of other agents load and follow with the agent's full permissions. In February 2026 Snyk audited 3,984 skills from ClawHub and skills.sh: <strong>13.4% had a critical issue and 76 carried confirmed malicious payloads</strong>, most combining malware with prompt injection.</p>
+      <ul>
+        <li>Names are first-come strings, so anyone can upload a look-alike <code>fact-check</code>.</li>
+        <li>Nothing pins the bytes, so a skill can change after you trusted it.</li>
+        <li>One company per index decides what is safe, and you can't see why.</li>
+        <li>Abandoned listings never leave.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>What skillreg changes</h2>
+      <table>
+        <tr><th>Problem</th><th>skillreg</th></tr>
+        <tr><td>Look-alike names</td><td>A skill is <code>name@publisher</code>. The publisher is Arkiv's <code>$creator</code>, set by the chain and impossible to forge.</td></tr>
+        <tr><td>Changes after you trusted it</td><td>Versions are <code>readonly</code> records. Install checks every file against the signed hash and pins it in a lockfile.</td></tr>
+        <tr><td>One gatekeeper</td><td>Anyone can post a rating. Your trust file picks the raters. Same public data, your own verdict, computed on your machine.</td></tr>
+        <tr><td>Dead listings</td><td>A version lives 90 days. The owner renews it, or anyone who still depends on it can pay to keep it alive.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>"Won't smarter models make skills obsolete?"</h2>
+      <p>It's the right question. We're in a period where a better model ships almost every week. If a new model can write better code from a prompt than the code someone pinned in March, why keep a registry at all?</p>
+      <p><strong>Part of that is true.</strong> Three kinds of skill content do go stale:</p>
+      <ul>
+        <li><strong>Bundled implementation code.</strong> Next month's model writes a better script. Regenerating wins.</li>
+        <li><strong>Scaffolding for weaker models.</strong> "Think step by step", rigid 12-step procedures, over-prescribed formats. These can make a stronger model worse.</li>
+        <li><strong>Workarounds for one model's quirks.</strong> They die with that model.</li>
+      </ul>
+      <p><strong>But most of a skill isn't code.</strong> Of 234 skills installed on one working developer machine, only 59 (25%) contain any script. The rest are markdown: facts, decisions, constraints and pitfalls.</p>
+      <p><strong>Intelligence isn't knowledge.</strong> A model ten times smarter still doesn't know your deploy host, your house style, which database is the master, which endpoint replaced the old one, or the mistake that cost you 63 GB last month. That is context, not reasoning, and no prompt can derive it. A brilliant new hire still reads the runbook on day one.</p>
+      <p><strong>When generation is free, verification is the bottleneck.</strong> Regenerating everything from scratch means no reproducibility, no audit trail, repeated cost, and a fresh chance for injected instructions every run. Faster models make it more valuable to know who wrote an instruction, whether it changed, and who vouches for it.</p>
+      <p><strong>And a "prompt registry" has the same problem.</strong> Prompts are the attack surface: prompt injection lives in prose. Swapping skills for prompts doesn't remove the need for a chain of custody; it's the same registry under a new label.</p>
+    </section>
+
+    <section>
+      <h2>Where it goes: a registry of intents and evals</h2>
+      <p>If models improve weekly, the lasting asset isn't the implementation. It's the spec and the test. The direction for skillreg:</p>
+      <table>
+        <tr><th>Part of a record</th><th>Lifetime</th></tr>
+        <tr><td><strong>Intent:</strong> what the skill is for</td><td>Long</td></tr>
+        <tr><td><strong>Facts and constraints:</strong> what no model can derive (hosts, rules, preferences, pitfalls)</td><td>Long, renewed as they change</td></tr>
+        <tr><td><strong>Evals:</strong> runnable acceptance checks any model's output must pass</td><td>Long</td></tr>
+        <tr><td><strong>Reference code:</strong> marked disposable</td><td>Short; each new model regenerates it</td></tr>
+      </table>
+      <p>Ratings then stop meaning only "this file looks safe" and also mean "model X on date Y produced output that passed these evals". The 90-day lease already suits content that decays; ratings are already records; the trust file still decides whose results count.</p>
+      <p class="pull">Models get smarter every week. Your intent, your constraints and your tests shouldn't have to be rewritten each time. skillreg stores what lasts and verifies what's regenerated.</p>
+    </section>
+
+    <section>
+      <h2>Built for agents as first-class users</h2>
+      <p>As agents start writing skills and handing them to each other, they need provenance without paperwork. An agent can hold a key and pay for storage. It can't comfortably pass an email-plus-captcha signup. skillreg needs no account to read, and only a wallet to publish, rate or sponsor. The <a href="https://github.com/kon-rad/skillreg/blob/main/skills/skillreg/SKILL.md">skillreg skill</a> teaches any agent to search, vet and install safely, and the CLI's exit codes (2 blocked, 3 needs confirmation) are designed for agents to act on.</p>
+    </section>
+
+    <section>
+      <h2>Humans set the policy, agents do the work, the record keeps both honest</h2>
+      <p>skillreg doesn't make a model's values good. That's alignment research, and we don't claim it. What it does is narrower and real: it keeps what agents are told to do in readable markdown, pinned to a hash and audited in public, and it puts the human in charge of which judgments their agent obeys. That is AI control and supply-chain defence, and the same pattern extends to MCP servers, tools and agent-to-agent messages.</p>
+    </section>
+
+    <section>
+      <h2>A d/acc tool: defensive, differential, decentralized, democratic</h2>
+      <p>Vitalik Buterin's d/acc asks technologists to accelerate the things that make the world safer for pluralism. In "My techno-optimism" he calls for info-defence that plugs into "a large and sophisticated group of people" rather than one arbiter, and says security tools "should not be something that requires explicit installs" but come by default. Scored honestly:</p>
+      <table>
+        <tr><th></th><th>Today</th><th>Next</th></tr>
+        <tr><td><strong>Defensive</strong></td><td>Detection and pinning help the installer, not the attacker. Public findings teach attackers too, the same trade as CVE databases, and still net defensive.</td><td>LLM and sandbox raters whose rules can't be tested offline</td></tr>
+        <tr><td><strong>Differential</strong></td><td>Makes the open skill ecosystem safer, so open can compete with walled marketplaces on safety, not just freedom.</td><td>Safe install as the default path inside every agent harness</td></tr>
+        <tr><td><strong>Decentralized</strong></td><td>Data lives on Arkiv; reads need no backend. The default trust list, page host and CLI source are still one maintainer.</td><td>Trust lists as subscribable records, several maintained defaults, mirrors by hash</td></tr>
+        <tr><td><strong>Democratic</strong></td><td>Each user picks their own judges. No central list of good and bad.</td><td>Show which ratings agree across rater groups that usually disagree, Community Notes style</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Why Arkiv, and not Sigstore or a GitHub index?</h2>
+      <p>Sigstore already gives signed provenance and a transparency log, and npm and PyPI use it. We'd interoperate with it. What Arkiv adds is two things we can't get elsewhere:</p>
+      <ul>
+        <li><strong>Identity with no account.</strong> <code>$creator</code> is the publisher. No GitHub or Google login vouching for you, which is what lets an agent publish.</li>
+        <li><strong>Ratings with no operator.</strong> Third-party judgments are first-class records anyone can query from a browser, with no server of ours in between.</li>
+      </ul>
+      <p>Plus leases: listings expire unless someone pays to keep them, so abandoned skills fall out on their own, and <code>permissionlessExtension</code> lets a community keep an orphaned skill or a malicious-skill warning alive.</p>
+    </section>
+
+    <section>
+      <h2>Honest limits</h2>
+      <ul>
+        <li>The static scanner is a floor, not the defence. Its rules are public and deterministic, so a determined attacker can test against them. Subtle prose-only manipulation needs other raters; the protocol lets anyone add them.</li>
+        <li>The default trust list is one maintainer's scanner wallet. Replace it with anyone you like; that's the point.</li>
+        <li>It runs on the Arkiv Tiramisu testnet today.</li>
+        <li>Today you install through our CLI. The plan is a <code>/.well-known/agent-skills/index.json</code> gateway so existing harnesses read skillreg with no changes.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Roadmap</h2>
+      <ol>
+        <li>Well-known index gateway: Hermes, Claude Code, Codex and <code>npx skills</code> read skillreg with zero client changes.</li>
+        <li>Trust lists as Arkiv records, subscribable like ad-block filter lists.</li>
+        <li>An LLM rater and a sandbox rater, each its own wallet with a public track record.</li>
+        <li>Intents and evals in the record format; ratings record which model passed.</li>
+        <li>Gasless publishing through a relayer, for human authors who will never hold test tokens.</li>
+        <li>Mirrors to git and IPFS by hash, so the data outlives any one network.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Try it</h2>
+<pre>npx -y github:kon-rad/skillreg search fact-check
+npx -y github:kon-rad/skillreg info fact-check
+npx -y github:kon-rad/skillreg install fact-check
+npx -y github:kon-rad/skillreg verify</pre>
+      <p>Install refuses BLOCK (exit 2), asks before WARN (exit 3) and writes nothing unless every hash matches. Data contract: <a href="https://github.com/kon-rad/skillreg/blob/main/arkiv/schema.md">arkiv/schema.md</a>.</p>
+    </section>
+  </main>
+
+  <footer class="wrap muted">
+    MIT · <a href="https://github.com/kon-rad/skillreg">source and data contract</a> · <a href="https://github.com/kon-rad/skillreg/blob/main/docs/introducing-skillreg.md">introducing skillreg</a> · built for the Arkiv Global Tour Stop (pre-Devcon)
+  </footer>
+</body>
+</html>

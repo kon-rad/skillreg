@@ -6,6 +6,9 @@
 - **CLI:** `npx -y github:kon-rad/skillreg --help`
 - **Data contract:** [`arkiv/schema.md`](arkiv/schema.md) · **Friction report:** [`arkiv/friction.md`](arkiv/friction.md)
 - **For agents:** the [`skillreg` skill](skills/skillreg/SKILL.md) teaches any agent to search, vet and install safely
+- **Why it exists:** https://kon-rad.github.io/skillreg/about.html · **Blog post:** [Introducing skillreg](docs/introducing-skillreg.md)
+
+> Code signing plus Community Notes for agent instructions. Models get smarter every week. Your intent, your constraints and your tests shouldn't have to be rewritten each time. skillreg stores what lasts and verifies what's regenerated.
 
 ## Why
 
@@ -19,6 +22,41 @@ skillreg changes four things:
 | A skill can change after you trusted it | Versions are `readonly` records; installs check every file against the signed hash and pin it in a lockfile |
 | One company decides what is safe | Anyone can post a rating. You choose which raters count. Same public data, your own verdict |
 | Dead listings linger forever | A version lives 90 days. Its owner renews it, or anyone who cares can extend it |
+
+### Won't smarter models make skills obsolete?
+
+Partly, and the design accounts for it.
+
+- **What goes stale:** bundled code (next month's model writes a better script), scaffolding written for weaker models, and workarounds for one model's quirks.
+- **What doesn't:** most of a skill isn't code. Of 234 skills on one developer machine, only 59 (25%) contain any script; the rest are facts, decisions, constraints and pitfalls. A model ten times smarter still doesn't know your deploy host, your house style or last month's expensive mistake. Intelligence isn't knowledge.
+- **Verification becomes the bottleneck.** When generation is free, regenerating from scratch costs you reproducibility, an audit trail and a fresh injection risk on every run. Knowing who wrote an instruction, that it hasn't changed, and who vouches for it gets more valuable as models speed up.
+- **A prompt registry wouldn't escape this.** Prompts are the attack surface; prompt injection lives in prose. Same chain-of-custody problem, new label.
+
+The direction is a registry of **intents and evals**: intent, the facts no model can derive, runnable acceptance checks, and reference code marked disposable. Each new model regenerates the code, the evals prove it works, and a rating records which model passed. See [Roadmap](#roadmap).
+
+### Agents are first-class users
+
+An agent can hold a key; it can't comfortably pass an email signup. Reading needs nothing; publishing, rating and sponsoring need only a wallet; and exit codes (2 blocked, 3 needs confirmation) are built for agents to act on. The human writes the trust file; the agent obeys it. skillreg isn't alignment research and doesn't make a model's values good. It is AI control and supply-chain defence: agent instructions stay readable, pinned and audited, and the human decides whose judgment their agent follows.
+
+### A d/acc tool
+
+| | Today | Next |
+|---|---|---|
+| **Defensive** | Detection and pinning help installers. Public findings also teach attackers, the CVE-database trade, still net defensive | LLM and sandbox raters whose rules can't be tested offline |
+| **Differential** | Makes the open ecosystem safer, so open competes with walled marketplaces on safety | Safe install as the default in every harness |
+| **Decentralized** | Data on Arkiv, reads need no backend. Default trust list, page host and CLI source are still one maintainer | Trust lists as records, several defaults, mirrors by hash |
+| **Democratic** | Each user picks their own judges | Highlight ratings that agree across rater groups that usually disagree, Community Notes style |
+
+### Why Arkiv, not Sigstore or a GitHub index
+
+Sigstore gives signed provenance and a transparency log, and we'd interoperate with it. Arkiv adds two things we can't get elsewhere: **identity with no account** (`$creator`, no GitHub or Google login vouching for you, so agents can publish) and **ratings with no operator** (third-party judgments as queryable records, no server of ours in between). Leases (`expiresAt` plus `permissionlessExtension`) let abandoned skills fall out on their own while a community keeps orphans and warnings alive.
+
+### Honest limits
+
+- The static scanner is a floor, not the defence: its rules are public, so attackers can test against them. Other raters are the answer, and the protocol lets anyone add one.
+- The default trust list is one maintainer's scanner wallet. Replace it.
+- Tiramisu testnet only, for now.
+- You install through this CLI today; existing harnesses need the gateway below.
 
 ## Quick start
 
@@ -100,6 +138,15 @@ anyone ──search / info / install / verify──◀── public reads ──
                      └─▶ .agents/skills/<name>/ + skills.lock.json
 ```
 
+## Roadmap
+
+1. **Well-known index gateway:** emit `/.well-known/agent-skills/index.json` from Arkiv so Hermes, Claude Code, Codex and `npx skills` read skillreg with no client changes.
+2. **Trust lists as records:** subscribable like ad-block filter lists, so no single default decides.
+3. **More raters:** an LLM rater and a sandbox rater, each its own wallet with a public track record.
+4. **Intents and evals:** acceptance checks in the record format; ratings record the model and date that passed.
+5. **Gasless publishing:** a relayer for human authors who will never hold test tokens.
+6. **Mirrors:** records copied to git and IPFS by hash, so the data outlives any one network.
+
 ## Run it locally
 
 ```bash
@@ -114,7 +161,7 @@ npm run web:dev                              # http://localhost:5173/?chain=loca
 
 ## Hackathon submission (Arkiv Global Tour Stop, pre-Devcon)
 
-**Tracks:** Open Source, Security.
+**Tracks:** Open Source, Security. **Form answers draft:** [`arkiv/submission.md`](arkiv/submission.md).
 
 **Wallets on Tiramisu** (fresh, test-only):
 
