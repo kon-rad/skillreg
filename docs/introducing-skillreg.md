@@ -105,7 +105,7 @@ npx -y github:kon-rad/skillreg install fact-check
 npx -y github:kon-rad/skillreg verify
 ```
 
-- Web: https://kon-rad.github.io/skillreg/ (and [why it exists](https://kon-rad.github.io/skillreg/about.html))
+- Web: https://kon-rad.github.io/skillreg/ (the registry itself is at https://kon-rad.github.io/skillreg/registry.html)
 - Code and data contract (MIT): https://github.com/kon-rad/skillreg
 - Your agent can learn it from the [skillreg skill](../skills/skillreg/SKILL.md).
 

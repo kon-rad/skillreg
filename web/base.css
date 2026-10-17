@@ -1,0 +1,30 @@
+/* Shared by every page: fonts, tokens, masthead. No global element styles here. */
+@import "@fontsource/libre-caslon-display/latin-400.css";
+@import "@fontsource/libre-caslon-text/latin-400.css";
+@import "@fontsource/libre-caslon-text/latin-400-italic.css";
+@import "@fontsource/libre-caslon-text/latin-700.css";
+@import "@fontsource/ibm-plex-mono/latin-400.css";
+@import "@fontsource/ibm-plex-mono/latin-500.css";
+
+:root {
+  --void: #05070d; --void-2: #0b1020; --wire: #6fe3ff; --sakura: #ff3d7f; --phosphor: #5cf2b2; --amber: #ffc65c;
+  --paper: #f1eee6; --ink: #121314; --ink-2: #3d3b37; --rule: #cfc9bb; --kicker: #b3122b;
+  --display: "Libre Caslon Display", "Big Caslon", Georgia, serif;
+  --serif: "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --jp: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", "MS Mincho", serif;
+}
+.jp, [lang="ja"] { font-family: var(--jp); }
+
+/* masthead: a thin instrument strip */
+.masthead { position: sticky; top: 0; z-index: 20; background: rgba(5, 7, 13, 0.94); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(111, 227, 255, 0.18); color: #c9d6ea; font: 500 12px/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; }
+.mh-inner { max-width: 1240px; margin: 0 auto; padding: 12px 24px; display: flex; gap: 22px; align-items: center; }
+.mh-brand { font: 400 20px/1 var(--display); letter-spacing: 0; text-transform: none; color: #fff; text-decoration: none; }
+.mh-jp { color: var(--wire); letter-spacing: 0.2em; font-size: 12px; }
+.mh-meta { color: #7e8aa3; }
+.mh-meta #block { color: var(--phosphor); }
+.mh-nav { margin-left: auto; display: flex; gap: 20px; }
+.mh-nav a { text-decoration: none; color: #c9d6ea; }
+.mh-nav a:hover, .mh-nav a[aria-current="page"] { color: var(--wire); }
+@media (max-width: 760px) { .mh-jp, .mh-meta { display: none; } .mh-inner { padding: 12px 16px; } }
+

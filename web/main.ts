@@ -51,7 +51,9 @@ async function showResults(q: string) {
   const box = $("results")
   box.replaceChildren()
   $("detail").hidden = true
-  $("status").textContent = terms.length ? `${top.length} of ${all.length} skills match "${terms.join(" ")}"` : `${all.length} skills, newest first`
+  $("status").textContent = !all.length
+    ? "No skills on this network yet. Publish the first one with: npx -y github:kon-rad/skillreg publish <folder>"
+    : terms.length ? `${top.length} of ${all.length} skills match "${terms.join(" ")}"` : `${all.length} skills, newest first`
   for (const s of top) {
     const v = el("span", { text: "...", cls: "badge" })
     const card = el("article", { cls: "card" },

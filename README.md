@@ -2,11 +2,11 @@
 
 **An open, permissionless registry for agent skills on [Arkiv](https://arkiv.network).** A skill version is a signed, immutable, hash-checked Arkiv record. Anyone can publish one, rate one, or keep one alive. Each user decides whose ratings count, on their own machine. There is no server and no account, and nobody needs permission from us.
 
-- **Web:** https://kon-rad.github.io/skillreg/ (reads Arkiv from your browser)
+- **Web:** https://kon-rad.github.io/skillreg/registry.html (reads Arkiv from your browser)
 - **CLI:** `npx -y github:kon-rad/skillreg --help`
 - **Data contract:** [`arkiv/schema.md`](arkiv/schema.md) · **Friction report:** [`arkiv/friction.md`](arkiv/friction.md)
 - **For agents:** the [`skillreg` skill](skills/skillreg/SKILL.md) teaches any agent to search, vet and install safely
-- **Why it exists:** https://kon-rad.github.io/skillreg/about.html · **Blog post:** [Introducing skillreg](docs/introducing-skillreg.md)
+- **Site:** https://kon-rad.github.io/skillreg/ (why it exists) · **Registry:** https://kon-rad.github.io/skillreg/registry.html · **Essay:** https://kon-rad.github.io/skillreg/blog.html ([source](docs/introducing-skillreg.md))
 
 > Code signing plus Community Notes for agent instructions. Models get smarter every week. Your intent, your constraints and your tests shouldn't have to be rewritten each time. skillreg stores what lasts and verifies what's regenerated.
 
@@ -178,7 +178,7 @@ npm run web:dev                              # http://localhost:5173/?chain=loca
 
 ### Reproduce
 
-1. Open the web page and search `fact-check`. Two publishers have that name. The registry-ops one is PASS, and the demo-author one is BLOCK with the scanner's findings quoted by file and line.
+1. Open https://kon-rad.github.io/skillreg/registry.html and search `fact-check`. Two publishers have that name. The registry-ops one is PASS, and the demo-author one is BLOCK with the scanner's findings quoted by file and line.
 2. The same from any terminal, with no backend: `npx -y github:kon-rad/skillreg search fact-check`.
 3. `npx -y github:kon-rad/skillreg install fact-check` resolves to the trusted publisher, checks every hash and writes the lockfile.
 4. `npx -y github:kon-rad/skillreg install fact-check@0x7019b3e88472593b59902e31ed61749B62BdDe92 --yes` exits 2 (BLOCKED) and writes nothing.

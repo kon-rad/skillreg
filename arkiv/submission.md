@@ -35,7 +35,7 @@ Why it still matters as models improve weekly: most of a skill is not code. Of 2
 
 ### Q1. Live app URL
 
-https://kon-rad.github.io/skillreg/ (reads Tiramisu directly from the browser, no backend). Why it exists: https://kon-rad.github.io/skillreg/about.html. CLI with no install: npx -y github:kon-rad/skillreg search fact-check
+https://kon-rad.github.io/skillreg/registry.html (reads Tiramisu directly from the browser, no backend). Overview and live trust demo: https://kon-rad.github.io/skillreg/. Essay: https://kon-rad.github.io/skillreg/blog.html. CLI with no install: npx -y github:kon-rad/skillreg search fact-check
 
 ### Q2. Indian nationality on team
 
@@ -79,7 +79,7 @@ https://github.com/kon-rad/skillreg/blob/main/arkiv/schema.md
 
 ### Q8. Step-by-step judge repro
 
-1. Open https://kon-rad.github.io/skillreg/ and search fact-check. Two publishers have that name. The registry-ops one is PASS; the demo-author one is BLOCK with the scanner's findings quoted by file and line.
+1. Open https://kon-rad.github.io/skillreg/registry.html and search fact-check. Two publishers have that name. The registry-ops one is PASS; the demo-author one is BLOCK with the scanner's findings quoted by file and line.
 2. Same from any terminal, no backend: npx -y github:kon-rad/skillreg search fact-check
 3. npx -y github:kon-rad/skillreg install fact-check resolves to the trusted publisher, checks every hash and writes skills.lock.json.
 4. npx -y github:kon-rad/skillreg install fact-check@0x7019b3e88472593b59902e31ed61749B62BdDe92 --yes exits 2 (BLOCKED) and writes nothing.

@@ -3,38 +3,204 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>skillreg</title>
-  <meta name="description" content="Open, permissionless registry for agent skills on Arkiv. Signed, immutable, hash-checked, rated by whoever you trust." />
-  <link rel="stylesheet" href="./style.css" />
+  <title>skillreg · a trust layer for agent instructions</title>
+  <meta name="description" content="An open registry for agent skills on Arkiv. Every version is signed by its publisher, frozen, and checked byte for byte. Anyone can rate it. You decide whose ratings count." />
+  <meta property="og:title" content="skillreg · a trust layer for agent instructions" />
+  <meta property="og:description" content="Code signing plus Community Notes for agent skills. No operator, no accounts, usable by agents." />
+  <meta name="theme-color" content="#05070d" />
+  <script>
+    // Old registry links (/?q=, /?skill=) now live at registry.html.
+    if (/[?&](q|skill|chain|rpc)=/.test(location.search)) location.replace("registry.html" + location.search)
+  </script>
 </head>
-<body>
-  <header>
-    <div class="wrap">
-      <nav class="nav"><a href="./" aria-current="page">Registry</a> <a href="./about.html">Why skillreg</a> <a href="https://github.com/kon-rad/skillreg/blob/main/docs/introducing-skillreg.md">Blog post</a> <a href="https://github.com/kon-rad/skillreg">GitHub</a></nav>
-      <h1><a href="./">skillreg</a></h1>
-      <p class="tag">Agent skills as signed, immutable records on Arkiv. Anyone can publish, rate or keep a skill alive. You choose whose ratings count.</p>
+<body class="site">
+  <div class="masthead">
+    <div class="mh-inner">
+      <a class="mh-brand" href="./">skillreg</a>
+      <span class="mh-jp" lang="ja">スキル登録簿</span>
+      <span class="mh-meta">Arkiv · Tiramisu testnet · block <span id="block">…</span></span>
+      <nav class="mh-nav" aria-label="Site">
+        <a href="./registry.html">Registry</a>
+        <a href="./blog.html">Essay</a>
+        <a href="https://github.com/kon-rad/skillreg">Source</a>
+      </nav>
     </div>
+  </div>
+
+  <header class="hero">
+    <canvas id="cyberspace" aria-hidden="true"></canvas>
+    <div class="hero-overlay" id="cs-overlay" aria-hidden="true"></div>
+    <div class="hero-copy">
+      <p class="kicker">A trust layer for agent instructions</p>
+      <h1>Who wrote the instructions <em>your agent just obeyed?</em></h1>
+      <p class="hero-dek">skillreg is an open registry for agent skills. Every version is signed by its publisher, frozen, and checked byte for byte when you install it. Anyone can rate a skill. You decide whose ratings count. There is no company in the middle and no account to make, so agents can use it as easily as people.</p>
+      <form class="prompt" action="./registry.html" method="get" role="search">
+        <label for="hq" class="prompt-sign">skillreg&nbsp;search&nbsp;›</label>
+        <input id="hq" name="q" type="search" placeholder="fact-check" autocomplete="off" spellcheck="false" />
+        <button type="submit">Search the registry</button>
+      </form>
+      <p class="hero-links"><a href="./blog.html">Read the essay</a> <span aria-hidden="true">·</span> <a href="#how">How it works</a> <span aria-hidden="true">·</span> <code>npx -y github:kon-rad/skillreg</code></p>
+    </div>
+    <p class="hero-vertical" lang="ja" aria-hidden="true">電脳空間の信頼層</p>
+    <p class="hero-caption">Fig. 1. The registry as a place. Each point is a published record; the lines are trust you chose. One rater you trust has marked an impostor.</p>
   </header>
-  <main class="wrap">
-    <form id="search" role="search">
-      <input id="q" type="search" placeholder="Search skills: pdf, fact-check, deploy..." autocomplete="off" aria-label="Search skills" />
-      <button type="submit">Search</button>
-    </form>
-    <p id="status" class="muted" aria-live="polite">Loading the registry from Arkiv...</p>
-    <section id="results" aria-label="Results"></section>
-    <section id="detail" hidden aria-label="Skill detail"></section>
-    <details id="settings">
-      <summary>Network and trust</summary>
-      <p class="muted">Verdicts are computed in your browser from ratings posted by the raters you list here. Nothing is sent anywhere but the Arkiv RPC.</p>
-      <label>Raters you trust (one address per line)<textarea id="raters" rows="3" spellcheck="false"></textarea></label>
-      <label>Publishers you trust (one address per line)<textarea id="publishers" rows="3" spellcheck="false"></textarea></label>
-      <p class="muted" id="net"></p>
-      <button type="button" id="save">Save and reload</button>
-    </details>
+
+  <main class="paper">
+    <article class="essay">
+      <section class="spread" id="problem">
+        <aside class="margin"><span class="m-label">The problem</span><span class="m-jp" lang="ja">供給網</span></aside>
+        <div class="col">
+          <h2>The supply chain nobody signed</h2>
+          <p class="dropcap">A skill is a folder of plain instructions, a <code>SKILL.md</code>, that Claude Code, Hermes, Codex, Cursor and dozens of other agents load and then follow with the agent’s own permissions: the shell, the files, the keys. In February 2026 the security firm Snyk audited 3,984 skills from two public indexes and found that 13.4 percent had a critical issue. Seventy-six carried confirmed malicious payloads, most of them pairing malware with prompt injection.</p>
+          <p>The indexes those skills came from share four habits. A name belongs to whoever uploads it first, so a look-alike <code>fact-check</code> is one upload away. Nothing pins the bytes, so a skill can change after you trusted it. A single company decides what counts as safe, and doesn’t show its reasoning. And abandoned listings stay up forever, collecting installs.</p>
+        </div>
+        <aside class="note">Snyk, ToxicSkills audit of ClawHub and skills.sh, 5 February 2026. Separately, Antiy CERT documented 1,184 poisoned ClawHub skills.</aside>
+      </section>
+
+      <section class="spread" id="how">
+        <aside class="margin"><span class="m-label">How it works</span><span class="m-jp" lang="ja">仕組み</span></aside>
+        <div class="col">
+          <h2>Four properties, each enforced by the chain or by your own machine</h2>
+          <dl class="tenets">
+            <div><dt><span class="glyph" lang="ja">名前</span>A name has an owner</dt><dd>A skill is <code>name@publisher</code>. The publisher is Arkiv’s <code>$creator</code>, written by the chain itself. Anyone can publish a <code>fact-check</code>; nobody can publish one as someone else.</dd></div>
+            <div><dt><span class="glyph" lang="ja">凍結</span>A version never changes</dt><dd>Each version is a single <code>readonly</code> record carrying a hash of every file. Install re-checks every byte before writing anything and pins the result in <code>skills.lock.json</code>.</dd></div>
+            <div><dt><span class="glyph" lang="ja">信頼</span>You pick the judges</dt><dd>Ratings are public records anyone can post. Your trust file lists the raters you believe, and the verdict (PASS, WARN or BLOCK) is computed on your machine. The same data can give you and a stranger different answers. That is the design.</dd></div>
+            <div><dt><span class="glyph" lang="ja">期限</span>Listings are leases</dt><dd>A version lives ninety days. Its owner renews it, or anyone who still depends on it can pay to keep it alive. Abandoned skills fall away on their own.</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <figure class="figure" id="trust-figure">
+        <div class="fig-stage">
+          <canvas id="trustgraph" aria-hidden="true"></canvas>
+          <div class="fig-overlay" id="tg-overlay" aria-hidden="true"></div>
+        </div>
+        <div class="fig-controls" role="radiogroup" aria-label="Whose ratings count" id="tg-controls"></div>
+        <figcaption><span class="fig-n">Fig. 2.</span> <span id="tg-note"></span> <span class="fig-rule">Rule, as the CLI applies it: any trusted malicious rating blocks; any trusted warning warns; one trusted clean rating passes; no evidence warns. A publisher’s ratings of its own skill never count.</span></figcaption>
+      </figure>
+
+      <section class="spread" id="objection">
+        <aside class="margin"><span class="m-label">The objection</span><span class="m-jp" lang="ja">反論</span></aside>
+        <div class="col">
+          <h2>Won’t smarter models make all of this obsolete?</h2>
+          <p class="dropcap">It’s the right question to ask in a year when a better model ships almost every week. If next month’s model writes better code from a prompt than the code someone pinned in March, why keep a registry at all? Why not a registry of prompts, and let each new model generate the rest?</p>
+          <div class="ledger">
+            <div>
+              <h3>What goes stale</h3>
+              <p><strong>Bundled code.</strong> The next model writes a better script. Regenerate it.</p>
+              <p><strong>Scaffolding for weaker models.</strong> “Think step by step,” rigid twelve-step procedures, over-specified formats. They can make a stronger model worse.</p>
+              <p><strong>Workarounds for one model’s quirks.</strong> They die with the model.</p>
+            </div>
+            <div>
+              <h3>What lasts</h3>
+              <p><strong>Facts.</strong> Of 234 skills on one working developer’s machine, 59 contain any script at all. The other three-quarters are markdown: hosts, house rules, decisions, pitfalls.</p>
+              <p><strong>Knowledge, as distinct from intelligence.</strong> A model ten times smarter still doesn’t know your deploy target or last month’s expensive mistake.</p>
+              <p><strong>Verification.</strong> When generating code costs nothing, knowing who wrote an instruction, that it hasn’t changed, and who vouches for it is the scarce thing.</p>
+            </div>
+          </div>
+          <p>A prompt registry wouldn’t escape the problem; it would rename it. Prompts are the attack surface. Prompt injection lives in prose, which is exactly where a scanner is weakest. A skill already is a prompt, plus the facts it depends on, plus a description of when to use it.</p>
+          <blockquote class="pull">Models get smarter every week. Your intent, your constraints and your tests shouldn’t have to be rewritten each time. skillreg stores what lasts and verifies what’s regenerated.</blockquote>
+        </div>
+      </section>
+
+      <section class="spread" id="evals">
+        <aside class="margin"><span class="m-label">Where it goes</span><span class="m-jp" lang="ja">意図と検証</span></aside>
+        <div class="col">
+          <h2>A registry of intents and evals</h2>
+          <p>If models improve weekly, the durable asset isn’t the implementation. It’s the specification and the test. The record format is heading toward four parts with very different lifetimes:</p>
+          <table class="lifetimes">
+            <tr><th>Part of the record</th><th>Lifetime</th></tr>
+            <tr><td><strong>Intent.</strong> What the skill is for.</td><td><span class="bar" style="--w: 100%"></span>Long</td></tr>
+            <tr><td><strong>Facts and constraints.</strong> What no model can derive.</td><td><span class="bar" style="--w: 85%"></span>Long, renewed as they change</td></tr>
+            <tr><td><strong>Evals.</strong> Runnable acceptance checks any model’s output must pass.</td><td><span class="bar" style="--w: 90%"></span>Long</td></tr>
+            <tr><td><strong>Reference code.</strong> Marked disposable.</td><td><span class="bar" style="--w: 18%"></span>Until the next model</td></tr>
+          </table>
+          <p>Ratings then mean more than “this file looks safe.” They also mean “model X, on date Y, produced output that passed these evals.” The ninety-day lease already suits content that decays.</p>
+        </div>
+      </section>
+
+      <section class="spread" id="agents">
+        <aside class="margin"><span class="m-label">For agents</span><span class="m-jp" lang="ja">代理人</span></aside>
+        <div class="col">
+          <h2>Humans set the policy. Agents do the work. The record keeps both honest.</h2>
+          <p>As agents begin writing skills and handing them to one another, a registry’s real users become machines. An agent can hold a key and pay for storage; it can’t comfortably pass an email-and-captcha signup. skillreg needs nothing to read and only a wallet to publish, rate or sponsor, and its exit codes (2 for blocked, 3 for needs confirmation) are written for an agent to act on.</p>
+          <p>To be precise about the claim: skillreg doesn’t make a model’s values good. That is alignment research. What it does is narrower, and real. It keeps what agents are told to do in readable text, pinned and audited in public, and it leaves the human in charge of whose judgment their agent obeys. Call it AI control, or supply-chain defence. The same pattern extends to MCP servers, tools and messages between agents.</p>
+        </div>
+      </section>
+
+      <section class="spread" id="dacc">
+        <aside class="margin"><span class="m-label">The ethic</span><span class="m-jp" lang="ja">防御的加速</span></aside>
+        <div class="col">
+          <h2>A d/acc tool, scored honestly</h2>
+          <p>Vitalik Buterin’s d/acc asks builders to accelerate the technologies that make the world safer for pluralism: decentralized, defensive, differential, democratic. In “My techno-optimism” he calls for info-defence that plugs into “a large and sophisticated group of people” rather than a single arbiter, and argues that security tools “should not be something that requires explicit installs.”</p>
+          <table class="score">
+            <tr><th></th><th>Today</th><th>Next</th></tr>
+            <tr><td class="letter">D<span>efensive</span></td><td>Detection and pinning help the person installing. Public findings also teach attackers, the trade every CVE database makes, and still net defensive.</td><td>LLM and sandbox raters whose rules can’t be tested offline</td></tr>
+            <tr><td class="letter">D<span>ifferential</span></td><td>Makes the open ecosystem safer, so open can compete with walled marketplaces on safety, not only on freedom.</td><td>Safe install as the default inside every agent harness</td></tr>
+            <tr><td class="letter">D<span>ecentralized</span></td><td>Data on Arkiv; reads need no server. But the default trust list, this page and the CLI source are still one maintainer.</td><td>Trust lists as records, several defaults, mirrors by hash</td></tr>
+            <tr><td class="letter">D<span>emocratic</span></td><td>Everyone picks their own judges. There is no central list of good and bad.</td><td>Surface ratings that agree across rater groups that usually disagree</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="spread" id="arkiv">
+        <aside class="margin"><span class="m-label">Why Arkiv</span><span class="m-jp" lang="ja">基盤</span></aside>
+        <div class="col">
+          <h2>The honest comparison is Sigstore</h2>
+          <p>Sigstore already gives npm and PyPI signed provenance and a public transparency log, and skillreg should interoperate with it. Arkiv adds two things Sigstore doesn’t. <strong>Identity without an account:</strong> <code>$creator</code> is the publisher, with no GitHub or Google login vouching for you, which is what lets an agent publish. <strong>Ratings without an operator:</strong> third-party judgments are first-class records that anyone can query from a browser, with no server of ours in between. Add leases, entity expiration with <code>permissionlessExtension</code>, and a community can keep an orphaned skill, or a warning about a malicious one, alive.</p>
+        </div>
+      </section>
+
+      <section class="spread" id="limits">
+        <aside class="margin"><span class="m-label">Limits</span><span class="m-jp" lang="ja">限界</span></aside>
+        <div class="col two">
+          <div>
+            <h2>What it doesn’t do yet</h2>
+            <ul class="plain">
+              <li>The static scanner is a floor, not the defence. Its rules are public, so an attacker can test against them. Calibrated on 269 real skills: 234 clean, 33 warn, 2 malicious.</li>
+              <li>The default trust list is one maintainer’s scanner wallet. Replace it; that is the point.</li>
+              <li>It runs on Arkiv’s Tiramisu testnet.</li>
+              <li>You install through the skillreg CLI today.</li>
+            </ul>
+          </div>
+          <div>
+            <h2>In order of priority</h2>
+            <ol class="roadmap">
+              <li>A <code>/.well-known/agent-skills/index.json</code> gateway, so Hermes, Claude Code, Codex and <code>npx skills</code> read skillreg with no changes.</li>
+              <li>Trust lists as Arkiv records you subscribe to, like ad-block filter lists.</li>
+              <li>An LLM rater and a sandbox rater, each with a public track record.</li>
+              <li>Intents and evals in the record format.</li>
+              <li>Gasless publishing for authors who will never hold test tokens.</li>
+              <li>Mirrors to git and IPFS by hash.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <section class="terminal-wrap" aria-label="Try it">
+      <div class="terminal">
+        <div class="term-bar"><span></span><span></span><span></span><em>~/any-folder · no account, no backend</em></div>
+<pre><span class="c"># search and inspect; no wallet needed</span>
+<b>$</b> npx -y github:kon-rad/skillreg search fact-check
+<b>$</b> npx -y github:kon-rad/skillreg info fact-check
+
+<span class="c"># verify every hash, then install atomically</span>
+<b>$</b> npx -y github:kon-rad/skillreg install fact-check
+<b>$</b> npx -y github:kon-rad/skillreg verify
+
+<span class="c"># the impostor is refused: exit 2, nothing written,</span>
+<span class="c"># findings quoted from </span><span class="block">scripts/sync.sh:3</span>
+<b>$</b> npx -y github:kon-rad/skillreg install fact-check@0x7019b3e88472593b59902e31ed61749B62BdDe92 --yes<span class="cursor" aria-hidden="true"></span></pre>
+      </div>
+      <p class="term-links"><a class="btn" href="./registry.html">Open the registry</a> <a href="https://github.com/kon-rad/skillreg/blob/main/arkiv/schema.md">Read the data contract</a> <a href="https://github.com/kon-rad/skillreg/blob/main/skills/skillreg/SKILL.md">Teach your agent</a></p>
+    </section>
   </main>
-  <footer class="wrap muted">
-    MIT · <a href="https://github.com/kon-rad/skillreg">source and data contract</a> · reads Arkiv directly, no backend
+
+  <footer class="colophon">
+    <blockquote>“Cypherpunks write code.”<cite>Eric Hughes, A Cypherpunk’s Manifesto, 1993</cite></blockquote>
+    <p>skillreg is MIT-licensed and reads Arkiv directly from your browser. This page loads no third-party scripts or fonts. Built for the Arkiv Global Tour Stop, pre-Devcon, October 2026. <a href="https://github.com/kon-rad/skillreg">Source</a> · <a href="./blog.html">Essay</a> · <a href="./registry.html">Registry</a></p>
   </footer>
-  <script type="module" src="./main.ts"></script>
+  <script type="module" src="./landing.ts"></script>
 </body>
 </html>
