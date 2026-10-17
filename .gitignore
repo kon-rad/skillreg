@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.wallets/
+.env
+.env.*
+*.log
+.DS_Store
+web/dist/
+.skillreg-state/
