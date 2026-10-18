@@ -35,7 +35,7 @@ Why it still matters as models improve weekly: most of a skill is not code. Of 2
 
 ### Q1. Live app URL
 
-https://kon-rad.github.io/skillreg/registry.html (reads Tiramisu directly from the browser, no backend). Overview and live trust demo: https://kon-rad.github.io/skillreg/. Essay: https://kon-rad.github.io/skillreg/blog.html. CLI with no install: npx -y github:kon-rad/skillreg search fact-check
+https://kon-rad.github.io/skillreg/registry.html (reads Tiramisu directly from the browser, no backend). Overview and live trust demo: https://kon-rad.github.io/skillreg/. Blog (essay and a frame-by-frame demo walkthrough): https://kon-rad.github.io/skillreg/blog.html. CLI with no install: npx -y github:kon-rad/skillreg search fact-check
 
 ### Q2. Indian nationality on team
 

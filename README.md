@@ -6,7 +6,7 @@
 - **CLI:** `npx -y github:kon-rad/skillreg --help`
 - **Data contract:** [`arkiv/schema.md`](arkiv/schema.md) · **Friction report:** [`arkiv/friction.md`](arkiv/friction.md)
 - **For agents:** the [`skillreg` skill](skills/skillreg/SKILL.md) teaches any agent to search, vet and install safely
-- **Site:** https://kon-rad.github.io/skillreg/ (why it exists) · **Registry:** https://kon-rad.github.io/skillreg/registry.html · **Essay:** https://kon-rad.github.io/skillreg/blog.html ([source](docs/introducing-skillreg.md))
+- **Site:** https://kon-rad.github.io/skillreg/ (why it exists) · **Registry:** https://kon-rad.github.io/skillreg/registry.html · **Blog:** https://kon-rad.github.io/skillreg/blog.html ([essay](docs/introducing-skillreg.md), [the demo, frame by frame](docs/skillreg-in-three-minutes.md))
 
 > Code signing plus Community Notes for agent instructions. Models get smarter every week. Your intent, your constraints and your tests shouldn't have to be rewritten each time. skillreg stores what lasts and verifies what's regenerated.
 
