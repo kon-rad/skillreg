@@ -66,12 +66,22 @@ https://github.com/kon-rad/skillreg/blob/main/arkiv/friction.md
 
 ### Q6. Creator wallet addresses and roles
 
-registry-ops (publishes the five secondbrain engine skills and the skillreg skill): 0xe4dAa45Be002C1d565fBf8E6a4EADE49FDcc4a7a
+registry-ops (funds the other wallets; publishes the five secondbrain engine skills and the skillreg skill): 0xe4dAa45Be002C1d565fBf8E6a4EADE49FDcc4a7a
 demo-author (publishes the inert impostor fact-check): 0x7019b3e88472593b59902e31ed61749B62BdDe92
 static-scanner (posts static ratings): 0xF9A331079AB64f3c7247F80CBA71C55Ac4A61dD6
 sponsor (extends a skill it does not own): 0xbE3b3c2541228FE1554818B8E33380F23F1eb0BA
 
-TODO after the seed run: add entity keys and transaction hashes from scripts/seed-tiramisu.sh.
+Live entities and transactions (Tiramisu, seeded 2026-10-18; open any hash at https://tiramisu.explorer.arkiv.network/tx/<hash>):
+
+fact-check@registry-ops: key 0xfe43c71a313a0cb6b5bba689968a4dd4bb88a1364ce3d3a2b0717fe6fd6434e8, tx 0x59abb4f5d565939960426315ca82a144906e17ebaf55146a18e8b39c2585884f
+fact-check@demo-author (impostor): key 0xc1834f4011c8b02f661522cc82d941867a3c5a37039cdef75ae794850b8b7d1a, tx 0x3d368c2c65b8b1548f7a1e1d38160327868736aa887270006cb006f74fba7a27
+skillreg@registry-ops: key 0x13baa957a849b234980bd55679b94f37508d103f307000757975d398421efa3a, tx 0x08c382e3c2d38ad100dd7d349e503e56311d68489835e096fd1faaf10e4ccaff
+company-report@registry-ops: key 0xf570261cd55b9ef45c8e548b06c4f089b6cb0cb8a74af8137fc7089ad628cbce, tx 0x3c8ef3d01ef51f09b4571c6540ca90234505a34e8cf8326f45312a8e230a0b93
+ingest@registry-ops: key 0xe67c1697706af49e6bc74377b9993614406c52f1c41a9ef141b4e5ca8b5415bf, tx 0x69aa0a265b55c6bac3c85949408a74cc2689b2dca7d5b319a5cc7050349210b7
+livestream-x@registry-ops: key 0x9cf4e358971eb7e3f28e5eaf4622d68d5a0a2b5735642608172b54d0d4864bb4, tx 0x967289cc903dd64a5e3a338687bd67c94b67ff0abedfdbb4ea2e2b6168bd3a2f
+org-member@registry-ops: key 0xa72a5b42e9c1b455ee1f4d5fafe224e85679b9965c1c80cbd8b97cf1562dd654, tx 0xc8b9d530e6ca9d673f0ec2a4a7c662dd769f46915af137f37dcb1c90aa97af45
+7 static ratings in one batch (static-scanner): tx 0xb604a50a1a542769052f633407d3bb2c98d799cbadac077b1ff61530d376ab3e; the impostor's malicious rating is key 0xf3871c9988d30a1ab6a44f3524ea29a868f8fb9fbda0da853982d647244d033b
+Sponsor extends skillreg, which it does not own, to block 5,888,578: tx 0x9c378399e405bd479818d5690e76a1c9608df3d8fd80976703fe0ff22bd4e1be
 
 ### Q7. Link to schema.md
 
@@ -92,7 +102,7 @@ None in this repo's code; all of it was written from 2026-10-17. The demo skills
 
 ### Q10. Arkiv surfaces used
 
-TS SDK, JSON-RPC, Docs, Hub, Faucet, Data Explorer, Other
+TS SDK, JSON-RPC, Docs, Hub, Faucet, Block Explorer, Data Explorer, Other
 
 ### Q11. Name of "Other"
 

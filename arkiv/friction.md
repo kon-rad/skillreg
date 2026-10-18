@@ -52,6 +52,12 @@ What we expected, what happened, versions and how to reproduce, for every Arkiv 
 - **Expected and actual:** as documented, `readonly` blocks patches but not `deleteEntity`. Confirmed on the dev node.
 - **Impact on design:** a publisher can delete a malicious version after it is flagged. Ratings therefore quote the offending excerpt and key the hash (`sha`), so the evidence survives the skill record.
 
-## 7. Tiramisu
+## 7. Tiramisu: the live run (smooth path)
 
-Results of the live run are recorded in the README (wallets, entity keys, transactions).
+- **Surface:** TS SDK against Tiramisu (chain 7738577, `https://rpc.tiramisu.db-chain.testnet.arkiv.network`); Hub faucet; browser reads from GitHub Pages.
+- **Expected:** the same behaviour as the local dev node.
+- **Actual:** it was. `scripts/seed-tiramisu.sh` ran start to finish on 2026-10-18 in one go: 3 funding transfers, 7 `createEntity` publishes (each `readonly` + `permissionlessExtension`, 90 days), 7 ratings in a single `executeBatch`, and one `extendEntity` by a wallet that doesn't own the entity. Entity keys and transaction hashes are in the README. The 96 KiB payload cap, 25-per-batch ratings, `createdBy` and multi-term `OR` on `$creator` all worked unchanged.
+- **Cost (test GLM, from balances before and after):** registry-ops spent 0.0015 GLM on 6 publishes (about 0.00025 each); demo-author 0.00016 GLM on 1 publish; static-scanner 0.00087 GLM on one 7-rating batch.
+- **Verified after the run:** from an empty folder, `npx -y github:kon-rad/skillreg search fact-check` lists PASS (registry-ops, trusted) and BLOCK (demo-author); `install fact-check` writes the files with all hashes matching and a lockfile; `verify` prints `ok PASS fact-check`; `install fact-check@0x7019… --yes` exits 2 and writes nothing. The web page shows the same two verdicts and the scanner's findings by file and line, verified in the browser.
+- **Observation, not measured precisely:** the browser page fetches ratings per result, and on the public RPC the verdict badges filled in a few seconds after the list. A batched "ratings for these shas" query would help, and is possible today with one `OR` over `sha`; we haven't switched to it yet.
+- **Block explorer:** `tiramisu.explorer.arkiv.network/tx/<hash>` opens transactions. We didn't find a documented JSON API on it (a Blockscout-style `/api/v2/...` path returned "Not found"), so we looked up the ratings and sponsor transactions by scanning blocks over JSON-RPC.

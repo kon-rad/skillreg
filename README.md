@@ -172,6 +172,22 @@ npm run web:dev                              # http://localhost:5173/?chain=loca
 | static-scanner: posts static ratings | `0xF9A331079AB64f3c7247F80CBA71C55Ac4A61dD6` |
 | sponsor: extends a skill it does not own | `0xbE3b3c2541228FE1554818B8E33380F23F1eb0BA` |
 
+**Live on Tiramisu** (seeded 2026-10-18 with `scripts/seed-tiramisu.sh`; explorer: https://tiramisu.explorer.arkiv.network/tx/<hash>):
+
+| Record | Entity key | Creation tx |
+|---|---|---|
+| `company-report@registry-ops` v0.0.0 | `0xf570261cd55b9ef45c8e548b06c4f089b6cb0cb8a74af8137fc7089ad628cbce` | `0x3c8ef3d01ef51f09b4571c6540ca90234505a34e8cf8326f45312a8e230a0b93` |
+| `fact-check@registry-ops` v0.0.0 | `0xfe43c71a313a0cb6b5bba689968a4dd4bb88a1364ce3d3a2b0717fe6fd6434e8` | `0x59abb4f5d565939960426315ca82a144906e17ebaf55146a18e8b39c2585884f` |
+| `ingest@registry-ops` v0.0.0 | `0xe67c1697706af49e6bc74377b9993614406c52f1c41a9ef141b4e5ca8b5415bf` | `0x69aa0a265b55c6bac3c85949408a74cc2689b2dca7d5b319a5cc7050349210b7` |
+| `livestream-x@registry-ops` v0.0.0 | `0x9cf4e358971eb7e3f28e5eaf4622d68d5a0a2b5735642608172b54d0d4864bb4` | `0x967289cc903dd64a5e3a338687bd67c94b67ff0abedfdbb4ea2e2b6168bd3a2f` |
+| `org-member@registry-ops` v0.0.0 | `0xa72a5b42e9c1b455ee1f4d5fafe224e85679b9965c1c80cbd8b97cf1562dd654` | `0xc8b9d530e6ca9d673f0ec2a4a7c662dd769f46915af137f37dcb1c90aa97af45` |
+| `skillreg@registry-ops` v0.1.0 | `0x13baa957a849b234980bd55679b94f37508d103f307000757975d398421efa3a` | `0x08c382e3c2d38ad100dd7d349e503e56311d68489835e096fd1faaf10e4ccaff` |
+| `fact-check@demo-author` v9.9.9 (inert impostor) | `0xc1834f4011c8b02f661522cc82d941867a3c5a37039cdef75ae794850b8b7d1a` | `0x3d368c2c65b8b1548f7a1e1d38160327868736aa887270006cb006f74fba7a27` |
+| 7 static ratings (6 clean, impostor malicious), one `executeBatch` | impostor's rating: `0xf3871c9988d30a1ab6a44f3524ea29a868f8fb9fbda0da853982d647244d033b` | `0xb604a50a1a542769052f633407d3bb2c98d799cbadac077b1ff61530d376ab3e` |
+| sponsor extends `skillreg` (a skill it doesn't own) to block 5,888,578 | `0x13baa957…efa3a` | `0x9c378399e405bd479818d5690e76a1c9608df3d8fd80976703fe0ff22bd4e1be` |
+
+Funding (registry-ops sends 0.5 GLM to each other wallet): `0x9336725057eeb381b966f4c2779e5143373f040d1b6ca9aecf4dcf3de4bd15de`, `0x0456ce9032a90f2d6250c4806f30a9214a39242a7630757c45add29be99e2d45`, `0x3b88058d4fa9b0754e180a5b2c9786aab56ef7e56ab7fbbdcba455c1e1aab2e0`.
+
 **Judge repro:** see [Reproduce](#reproduce) below.
 
 **Pre-existing work:** none in this repo's code. The demo skills published by registry-ops are content from the MIT [secondbrain engine](https://github.com/kon-rad/secondbrain) at commit `06c8411`. The impostor fixture is inert: its target is `203.0.113.7`, a documentation-only address.
