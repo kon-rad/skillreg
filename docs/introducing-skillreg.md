@@ -2,6 +2,10 @@
 
 *Konrad Gnat · 2026-10-18 · built for the Arkiv Global Tour Stop (pre-Devcon)*
 
+![The skillreg landing page: "Who wrote the instructions your agent just obeyed?" over a three.js cyberspace where one fact-check is PASS and its impostor is BLOCK](../web/public/blog/introducing-skillreg/landing-hero.webp "The landing page at kon-rad.github.io/skillreg, live on the Tiramisu testnet.")
+
+**Watch the demo:** https://www.youtube.com/watch?v=xE0lxqMeFrk · **Devfolio:** https://devfolio.co/projects/skillreg-0915 · **Code:** https://github.com/kon-rad/skillreg · **Site:** https://kon-rad.github.io/skillreg/
+
 My agents install skills every week. A skill is a folder with a `SKILL.md` that Claude Code, Hermes, Codex or Cursor loads and then follows, with the agent's full permissions: shell, files, keys. I have 234 of them on one machine. Until this week I couldn't have told you, for most of them, who wrote them, whether they'd changed since I installed them, or whether anyone I trust had looked at them.
 
 That isn't a hypothetical risk. In February 2026 Snyk audited 3,984 skills from ClawHub and skills.sh and found that 13.4% had a critical issue and 76 carried confirmed malicious payloads, most combining malware with prompt injection. Agent skills are a software supply chain with no chain of custody.
@@ -16,7 +20,15 @@ So I built **skillreg**: an open, permissionless registry for agent skills on [A
 - **Listings are leases.** A version lives 90 days. The owner renews it, or anyone who depends on it can extend it. Abandoned skills fall out on their own.
 - **No server, no account.** The web page and the CLI read Arkiv directly. There's nothing of mine in the middle to take down or to trust.
 
+![The skillreg registry page, "Every skill, verified in your browser", listing skills with PASS badges, trusted publishers and lease expiry](../web/public/blog/introducing-skillreg/registry-list.webp "The registry page reads every record straight from Arkiv in the browser.")
+
 The demo: two publishers both have a skill called `fact-check`. One is the real one. The other is an inert impostor whose script sends a credential file to an IP address. The static scanner (a separate wallet) rates it malicious, quoting file and line. `skillreg install fact-check` resolves to the trusted publisher and checks every hash. Installing the impostor by its full name exits 2 and writes nothing.
+
+![Detail view of the impostor fact-check: BLOCK, publisher not in your trust list, sha verified in your browser, and the static rater's findings at SKILL.md line 17 and scripts/sync.sh line 3](../web/public/blog/introducing-skillreg/registry-impostor.webp "The impostor's detail view: every finding quotes the file and line.")
+
+![Terminal block from the landing page: search, info, install and verify fact-check, then the impostor install refused with exit 2](../web/public/blog/introducing-skillreg/landing-terminal.webp "The whole demo from any folder: no account, no backend.")
+
+![Trust graph: you trust the static scanner, which marks fact-check@registry-ops PASS and fact-check@demo-author BLOCK; an LLM rater and a fresh wallet sit greyed out](../web/public/blog/introducing-skillreg/trust-graph.webp "The trust graph on the landing page. Switch between trust policies and the same records give different verdicts.")
 
 ## The question I had to answer first
 
@@ -99,6 +111,10 @@ And leases: entity expiration plus `permissionlessExtension` turns a listing int
 
 ## Try it
 
+![The skillreg demo video on YouTube: Konrad walking through the landing page's Sigstore comparison](../web/public/blog/introducing-skillreg/youtube-demo.webp "skillreg demo - Arkiv Hackathon 2026.10.18, on YouTube.")
+
+The demo video: https://www.youtube.com/watch?v=xE0lxqMeFrk
+
 ```bash
 npx -y github:kon-rad/skillreg search fact-check
 npx -y github:kon-rad/skillreg install fact-check
@@ -107,6 +123,10 @@ npx -y github:kon-rad/skillreg verify
 
 - Web: https://kon-rad.github.io/skillreg/ (the registry itself is at https://kon-rad.github.io/skillreg/registry.html)
 - Code and data contract (MIT): https://github.com/kon-rad/skillreg
+- Demo video: https://www.youtube.com/watch?v=xE0lxqMeFrk
+- Devfolio submission (Arkiv: Global Tour Stop): https://devfolio.co/projects/skillreg-0915
 - Your agent can learn it from the [skillreg skill](../skills/skillreg/SKILL.md).
+
+![The skillreg README on GitHub: an open, permissionless registry for agent skills on Arkiv, with links to the web registry, the CLI, the data contract and the blog](../web/public/blog/introducing-skillreg/github-readme.webp "The README at github.com/kon-rad/skillreg.")
 
 If you run raters, maintain a trust list, or build an agent harness, I'd like to hear from you.
