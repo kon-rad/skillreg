@@ -39,7 +39,7 @@
         <input id="hq" name="q" type="search" placeholder="fact-check" autocomplete="off" spellcheck="false" />
         <button type="submit">Search the registry</button>
       </form>
-      <p class="hero-links"><a href="./blog.html?post=introducing-skillreg">Read the essay</a> <span aria-hidden="true">·</span> <a href="./blog.html?post=skillreg-in-three-minutes">The demo, frame by frame</a> <span aria-hidden="true">·</span> <a href="#how">How it works</a> <span aria-hidden="true">·</span> <code>npx -y github:kon-rad/skillreg</code></p>
+      <p class="hero-links"><a href="./blog.html?post=introducing-skillreg">Read the essay</a> <span aria-hidden="true">·</span> <a href="./blog.html?post=skillreg-in-three-minutes">The demo, frame by frame</a> <span aria-hidden="true">·</span> <a href="#how">How it works</a> <span aria-hidden="true">·</span> <a href="#faq">FAQ</a> <span aria-hidden="true">·</span> <code>npx -y github:kon-rad/skillreg</code></p>
     </div>
     <p class="hero-vertical" lang="ja" aria-hidden="true">電脳空間の信頼層</p>
     <p class="hero-caption">Fig. 1. The registry as a place. Each point is a published record; the lines are trust you chose. One rater you trust has marked an impostor.</p>
@@ -151,28 +151,41 @@
         </div>
       </section>
 
-      <section class="spread" id="limits">
-        <aside class="margin"><span class="m-label">Limits</span><span class="m-jp" lang="ja">限界</span></aside>
-        <div class="col two">
-          <div>
-            <h2>What it doesn’t do yet</h2>
-            <ul class="plain">
-              <li>The static scanner is a floor, not the defence. Its rules are public, so an attacker can test against them. Calibrated on 269 real skills: 234 clean, 33 warn, 2 malicious.</li>
-              <li>The default trust list is one maintainer’s scanner wallet. Replace it; that is the point.</li>
-              <li>It runs on Arkiv’s Tiramisu testnet.</li>
-              <li>You install through the skillreg CLI today.</li>
-            </ul>
-          </div>
-          <div>
-            <h2>In order of priority</h2>
-            <ol class="roadmap">
-              <li>A <code>/.well-known/agent-skills/index.json</code> gateway, so Hermes, Claude Code, Codex and <code>npx skills</code> read skillreg with no changes.</li>
-              <li>Trust lists as Arkiv records you subscribe to, like ad-block filter lists.</li>
-              <li>An LLM rater and a sandbox rater, each with a public track record.</li>
-              <li>Intents and evals in the record format.</li>
-              <li>Gasless publishing for authors who will never hold test tokens.</li>
-              <li>Mirrors to git and IPFS by hash.</li>
-            </ol>
+      <section class="spread" id="faq">
+        <aside class="margin"><span class="m-label">Questions</span><span class="m-jp" lang="ja">質問</span></aside>
+        <div class="col">
+          <h2>Questions publishers ask</h2>
+          <div class="faq">
+            <details>
+              <summary>Can someone else publish a skill with the same name as mine?</summary>
+              <p>Yes. Names aren’t reserved and there is no first-come claim. What they can’t do is publish it as you. A skill is <code>name@publisher</code>, and the publisher is the wallet that signed the record, written by the chain. Yours is <code>skillreg@0xYOURS</code>, theirs is <code>skillreg@0xTHEIRS</code>, and both show up in the registry as separate skills.</p>
+              <p>Installing by bare name (<code>skillreg install skillreg</code>) only works when exactly one publisher in your trust file has that name; otherwise the CLI stops and asks you to choose by address. <code>skillreg install skillreg@0xYOURS</code> always gets yours.</p>
+            </details>
+            <details>
+              <summary>How do I update a skill? Same name, or a new one like <code>skillreg-v2</code>?</summary>
+              <p>Same name, same wallet. Raise <code>metadata.version</code> in the <code>SKILL.md</code> frontmatter (say <code>0.1.0</code> to <code>0.2.0</code>) and run <code>skillreg publish</code> again. That writes a new frozen record, and search, <code>info</code> and <code>install</code> resolve <code>name@publisher</code> to the newest one. A new name would split your history, and people who use the old name would never see the update.</p>
+              <p>Always raise the version number. The CLI doesn’t enforce it, because “latest” means most recently published rather than the highest number, but two records with the same version confuse everyone.</p>
+            </details>
+            <details>
+              <summary>Will people who already installed my skill get the update?</summary>
+              <p>Not on their own. Every install is pinned to an exact record key and hash in <code>skills.lock.json</code>, so nothing changes under anyone without their say-so. They run <code>skillreg install skillreg@0xYOURS</code> again to move to the latest version, and <code>skillreg verify</code> re-checks what they have.</p>
+            </details>
+            <details>
+              <summary>Do ratings carry over to the new version?</summary>
+              <p>No. A rating is tied to the hash of one exact version, because a new version is new code nobody has looked at. Until a rater you trust scans or rates it, the new version shows WARN.</p>
+            </details>
+            <details>
+              <summary>What happens to the old version?</summary>
+              <p>It stays as it was. It’s a separate, read-only record, still installable by its key, until its ninety-day lease runs out. You, or anyone who still depends on it, can extend it with <code>skillreg extend</code>.</p>
+            </details>
+            <details>
+              <summary>What if I publish from a different wallet?</summary>
+              <p>That’s a different skill, <code>skillreg@0xNEW</code>, with no history and no ratings. Keep one publishing key per identity and keep it safe; the address is your name.</p>
+            </details>
+            <details>
+              <summary>Do I need an account?</summary>
+              <p>No. Searching, inspecting, installing and verifying need nothing at all. Publishing, rating and extending need a wallet (<code>SKILLREG_PRIVATE_KEY</code>) with a little gas on Arkiv’s Tiramisu testnet.</p>
+            </details>
           </div>
         </div>
       </section>
