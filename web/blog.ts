@@ -4,10 +4,16 @@ import "./site.css"
 import { marked } from "marked"
 import introducing from "../docs/introducing-skillreg.md?raw"
 import threeMinutes from "../docs/skillreg-in-three-minutes.md?raw"
+import explainer from "../docs/explainer-episode.md?raw"
 import { createCyberspace } from "./cyberspace"
 
 type Post = { slug: string; title: string; date: string; kicker: string; dek: string; md: string; image?: string }
 const POSTS: Post[] = [
+  {
+    slug: "explainer-episode", title: "explainer-episode: the skill we use to make educational TV, now on skillreg", date: "21 October 2026", kicker: "Skill",
+    dek: "Six to ten minute explainers researched from primary sources, fact-checked claim by claim behind a hash-stamped gate, critiqued twice, packaged for YouTube.",
+    md: explainer, image: "./blog/explainer-episode/thumbnail.webp",
+  },
   {
     slug: "skillreg-in-three-minutes", title: "skillreg in three minutes: the demo, frame by frame", date: "18 October 2026", kicker: "Walkthrough",
     dek: "The demo video as a post: two skills called fact-check, the real screens, the real terminal output and the real transactions on Arkiv.",

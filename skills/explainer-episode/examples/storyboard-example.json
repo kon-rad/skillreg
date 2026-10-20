@@ -1,0 +1,356 @@
+{
+  "title": "Omarchy: the computer an agent can read",
+  "thesis": "Omarchy is an Arch, Hyprland and Quickshell distribution by DHH designed so a coding agent can read and change the whole system: settings are text files and commands, the desktop is plugins, crashes go to your agent; Quattro adds packages, an update guard, snapshots and app isolation to keep that safe, and the cost is trust in unsandboxed plugins, unattended agents, a single shell process and Arch's churn.",
+  "one_idea": "An agent can only change what it can read; Omarchy puts most of the computer in reach of one.",
+  "end_line": "An agent can only change what it can read.",
+  "glossary": [
+    "Omarchy",
+    "Quattro",
+    "David Heinemeier Hansson",
+    "DHH",
+    "37signals",
+    "Hyprland",
+    "Quickshell",
+    "Wayland"
+  ],
+  "spelling": [
+    "Omarchy",
+    "Quattro",
+    "Heinemeier",
+    "Hansson",
+    "DHH",
+    "37signals",
+    "Hyprland",
+    "Quickshell"
+  ],
+  "voice": {
+    "pronounce": {
+      "Omarchy": "Oh-mar-key",
+      "DHH": "D H H",
+      "Heinemeier": "Hy-neh-my-er",
+      "Hansson": "Hanson",
+      "Hyprland": "Hyper-land",
+      "Quickshell": "Quick-shell"
+    }
+  },
+  "youtube": {
+    "title": "Omarchy explained: the Linux setup built for AI agents",
+    "summary": "Omarchy is David Heinemeier Hansson's Linux distribution, built on Arch, Hyprland and Quickshell, and designed so a coding agent can read and change most of the system: text files, a command line and a desktop made of plugins. Its creator says the Quattro release was almost exclusively built by agents. This video explains what Omarchy is, why plain text files and commands make a system agent-friendly, how crashes and plugins work, the guard rails that keep it from breaking, and what the freedom costs you.",
+    "tags": [
+      "Omarchy",
+      "Omarchy Quattro",
+      "DHH",
+      "Linux",
+      "Arch Linux",
+      "Hyprland",
+      "Quickshell",
+      "tiling window manager"
+    ],
+    "links": [
+      "Omarchy: https://omarchy.org/",
+      "The Omarchy manual: https://omarchy.org/manual/"
+    ],
+    "pinned_comment": "Every claim in this video is sourced; the sources are in the description. Two things we checked and corrected from earlier coverage: the repository now lives at github.com/omacom/omarchy, and Steam and the Windows VM are installed from the Omarchy menu rather than preinstalled. If you spot a factual error, reply here and we will pin the correction.",
+    "thumbnail": {
+      "kicker": "Argo Explains",
+      "text": "An OS for *agents*",
+      "image": "still:s10"
+    }
+  },
+  "sources": [
+    {
+      "title": "omarchy.org (homepage)",
+      "url": "https://omarchy.org/",
+      "note": "primary"
+    },
+    {
+      "title": "Omacom Foundation secures $1.8M in tokens from leading labs (DHH, 2026-09-03)",
+      "url": "https://omarchy.org/news/2026/09/omacom-foundation-secures-tokens-from-leading-labs/",
+      "note": "primary"
+    },
+    {
+      "title": "The Omarchy manual: welcome",
+      "url": "https://omarchy.org/manual/",
+      "note": "primary"
+    },
+    {
+      "title": "The Omarchy manual: AI",
+      "url": "https://omarchy.org/manual/ai/",
+      "note": "primary"
+    }
+  ],
+  "_note": "Ten real shots (plus chapter openers) from the 63-shot Omarchy episode, 2026-10-20. Ids keep the gaps of the full storyboard.",
+  "shots": [
+    {
+      "id": "s01",
+      "chapter": "Cold open",
+      "kicker": "omarchy.org, 2026-09-03",
+      "headline": "Built almost entirely by agents",
+      "say": "In September 2026, David Heinemeier Hansson wrote an unusual sentence about his Linux system. Omarchy Quattro has almost exclusively been built by agents.",
+      "visual": {
+        "kind": "web",
+        "url": "https://omarchy.org/news/2026/09/omacom-foundation-secures-tokens-from-leading-labs/",
+        "mode": "desktop",
+        "highlight": "In fact, Omarchy Quattro has almost exclusively been built by agents.",
+        "motion": {
+          "type": "focus",
+          "at_word": "Omarchy"
+        }
+      }
+    },
+    {
+      "id": "s02",
+      "headline": "What an agent does",
+      "say": "Agents here means AI coding assistants. They read files, run commands and change a system on their own.",
+      "visual": {
+        "kind": "slide",
+        "style": "chips",
+        "items": [
+          {
+            "text": "Read files",
+            "at_word": "read"
+          },
+          {
+            "text": "Run commands",
+            "at_word": "run"
+          },
+          {
+            "text": "Change the system",
+            "at_word": "change"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s04",
+      "headline": "Popular, for a Linux setup",
+      "say": "Its GitHub repository has more than 45,000 stars. The project counts about 1.3 million ISO downloads in its first year.",
+      "visual": {
+        "kind": "slide",
+        "style": "stats",
+        "items": [
+          {
+            "value": 45281,
+            "label": "GitHub stars",
+            "note": "GitHub, 2026-10-20",
+            "at_word": "45,000"
+          },
+          {
+            "value": "1.3M",
+            "count": false,
+            "label": "ISO downloads, year one",
+            "note": "downloads, not users",
+            "hero": true,
+            "at_word": "1.3"
+          }
+        ]
+      },
+      "credit": "Sources: GitHub API and omarchy.org, read 2026-10-20"
+    },
+    {
+      "id": "s06",
+      "chapter": "What is Omarchy, exactly?",
+      "headline": "",
+      "say": "First, what is Omarchy? It is not an operating system written from scratch.",
+      "visual": {
+        "kind": "slide",
+        "style": "chapter",
+        "number": "01",
+        "text": "What is Omarchy, *exactly*?"
+      }
+    },
+    {
+      "id": "s08",
+      "kicker": "The Omarchy manual",
+      "headline": "Arch, Hyprland, Quickshell",
+      "say": "The manual names the three main layers: Arch Linux, the window manager Hyprland, and Quickshell.",
+      "visual": {
+        "kind": "web",
+        "url": "https://omarchy.org/manual/",
+        "mode": "desktop",
+        "highlight": "Omarchy is an omakase Linux distribution based on Arch, the tiling window manager Hyprland, and the desktop construction-kit Quickshell."
+      }
+    },
+    {
+      "id": "s10",
+      "headline": "Tiling: no overlapping windows",
+      "say": "Above it is Hyprland, a tiling window manager. By default, tiled windows don't overlap. Each new window takes a share of the screen.",
+      "visual": {
+        "kind": "three",
+        "preset": "tiling",
+        "windows": [
+          {
+            "label": "Terminal",
+            "at_word": "Hyprland"
+          },
+          {
+            "label": "Browser",
+            "at_word": "overlap"
+          },
+          {
+            "label": "Editor",
+            "at_word": "new"
+          },
+          {
+            "label": "Notes",
+            "at_word": "share"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s11",
+      "headline": "What a compositor does",
+      "say": "Hyprland calls itself a dynamic tiling Wayland compositor. A compositor puts every app's window on screen. Wayland is the newer protocol for that, replacing X11.",
+      "visual": {
+        "kind": "diagram",
+        "lang": "mermaid",
+        "source": "graph LR\n  A[Terminal] --> C[\"Hyprland<br/>the compositor\"]\n  B[Browser] --> C\n  E[Editor] --> C\n  C --> S[Screen]",
+        "order": [
+          "A",
+          "B",
+          "E",
+          "C",
+          "S"
+        ],
+        "at_words": [
+          "dynamic",
+          "app's",
+          "window",
+          "compositor",
+          "screen"
+        ]
+      },
+      "credit": "Hyprland on GitHub: \"dynamic tiling Wayland compositor\""
+    },
+    {
+      "id": "s15",
+      "chapter": "Why build a computer for an agent?",
+      "headline": "",
+      "say": "So why design a computer for an AI agent?",
+      "visual": {
+        "kind": "slide",
+        "style": "chapter",
+        "number": "02",
+        "text": "Why build a computer for an *agent*?"
+      }
+    },
+    {
+      "id": "s16",
+      "headline": "Text in, text out",
+      "say": "Start with what a coding agent is good at. It reads text, writes text, runs a command, and checks what happened.",
+      "visual": {
+        "kind": "three",
+        "preset": "loop",
+        "stages": [
+          {
+            "label": "Read",
+            "at_word": "reads"
+          },
+          {
+            "label": "Write",
+            "at_word": "writes"
+          },
+          {
+            "label": "Run",
+            "at_word": "runs"
+          },
+          {
+            "label": "Check",
+            "at_word": "checks"
+          }
+        ],
+        "center_label": "The agent loop",
+        "start": 0.55
+      }
+    },
+    {
+      "id": "s23",
+      "headline": "A system you can read",
+      "say": "For that to work, the agent has to be able to read the system. Omarchy is configured mainly through plain text files, and its command line reaches the same tools as its menus.",
+      "visual": {
+        "kind": "three",
+        "preset": "layers",
+        "layers": [
+          {
+            "label": "Text files",
+            "at_word": "files"
+          },
+          {
+            "label": "Commands",
+            "at_word": "command"
+          },
+          {
+            "label": "Menus",
+            "at_word": "menus"
+          }
+        ],
+        "highlight": [
+          0,
+          1
+        ],
+        "gap": 1.1
+      }
+    },
+    {
+      "id": "s27",
+      "chapter": "What does the agent actually do?",
+      "headline": "",
+      "say": "So what does the agent actually do on this computer?",
+      "visual": {
+        "kind": "slide",
+        "style": "chapter",
+        "number": "03",
+        "text": "What does the agent *actually* do?"
+      }
+    },
+    {
+      "id": "s31",
+      "headline": "From crash to agent",
+      "say": "The clearest example is a crash. When a program crashes, Linux records it, and an Omarchy script watching the system log shows a notification.",
+      "visual": {
+        "kind": "diagram",
+        "lang": "mermaid",
+        "source": "graph LR\n  A[App] --> B[systemd-coredump]\n  B --> C[omarchy-crash-watch]\n  C --> N[Notification]\n  N --> G[Agent]",
+        "order": [
+          "A",
+          "B",
+          "C",
+          "N",
+          "G"
+        ],
+        "at_words": [
+          "crashes",
+          "records",
+          "script",
+          "notification",
+          "notification"
+        ]
+      }
+    },
+    {
+      "id": "s46",
+      "headline": "Snapshot, then update",
+      "say": "That command, omarchy update, takes a file-system snapshot first, then updates the packages.",
+      "visual": {
+        "kind": "diagram",
+        "lang": "mermaid",
+        "source": "graph LR\n  P[pacman -Syu] -.->|stopped| X[Guard]\n  O[omarchy update] --> S[Snapshot]\n  S --> K[Packages]",
+        "order": [
+          "P",
+          "X",
+          "O",
+          "S",
+          "K"
+        ],
+        "at_words": [
+          "command",
+          "command",
+          "update",
+          "snapshot",
+          "packages"
+        ]
+      }
+    }
+  ]
+}
